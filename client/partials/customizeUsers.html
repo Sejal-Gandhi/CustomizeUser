@@ -1,0 +1,25 @@
+<div ng-controller='customizeUsersController as CUC'>
+	{{CUC}}
+	<p>This is Customer Controller</p>
+	<form>
+		<p>First Name:<input type="text" ng-model="CUC.newUser.firstname"/></p>
+		<p>Last Name:<input type="text" ng-model="CUC.newUser.lastname"/></p>
+		<p>Favorite Language:<input type="text" ng-model="CUC.newUser.fav_lang"/>
+		<input type="submit" value="Create User" ng-click="CUC.createUser()"></p>
+	</form>
+
+	<table border="1" width=60%>
+	      <tr>
+	        <th>First Name</th>
+	        <th>Last Name</th>
+	        <th>Favorite Language</th>
+	        <th>Action</th>
+	      </tr>
+	      <tr ng-repeat="user in CUC.users">
+	        <td>{{user.firstname}}</td>
+	        <td>{{user.lastname}}</td>
+	        <td>{{user.fav_lang}}
+	        <td><input type="submit" value="Delete User" ng-click="CUC.deleteUser($index)"</td>
+	      </tr>
+	    </table> 
+</div>

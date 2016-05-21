@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html ng-app='myApp'>
+<head>
+	<title>Customize Users(Partials)</title>
+	<script type="text/javascript" src='angular/angular.js'></script>
+	<script type="text/javascript" src='angular-route/angular-route.js'></script>
+	<script type="text/javascript">
+		var myApp=angular.module('myApp',['ngRoute'])
+
+		myApp.config(function($routeProvider){
+			$routeProvider
+			.when('/',{
+				templateUrl:'partials/customizeUsers.html'
+			})
+			.when('/userList',{
+				templateUrl:'/partials/userList.html'
+			})
+			.otherwise({
+				templateUrl:'/partials/customizeUsers.html'
+			})
+		});
+
+		myApp.factory('UserFactory',function(){
+			var factory={}
+			console.log("inside factory");
+
+			var users=[
+			{firstname:'Sejal',lastname:'Gandhi',fav_lang:'Mean'}
+			];
+
+			factory.getUser=function(callback){
+				 callback(users);
+			}
+			factory.createUser=function(user){
+				console.log("inside create user:");
+				users.push(user);
+				
+				
+			}
+			factory.deleteUser=function(index){
+				users.splice(index,1);
+			}
+			return factory;
+		});
+
+		// myApp.controller('customizeUsersController',function($scope,UserFactory){
+		// 	console.log("inside controller");
+		// 	$scope.users=[];
+		// 	UserFactory.getUser(function(data){
+		// 		$scope.users=data;
+		// 	})
+
+		// 	$scope.createUser=function(){
+		// 		UserFactory.createUser($scope.newUser)
+		// 		UserFactory.getUser;
+		// 		$scope.newUser={};
+		// 	}
+		// 	$scope.deleteUser=function(index){
+		// 		UserFactory.deleteUser(index)
+		// 	}
+				
+						
+			
+		// });
+
+		myApp.controller('customizeUsersController',function(UserFactory){
+			console.log("inside controller");
+			var that = this;
+			this.users=[];
+			UserFactory.getUser(function(data){
+				that.users=data;
+			})
+
+			this.createUser=function(){
+				UserFactory.createUser(this.newUser)
+				UserFactory.getUser();
+				this.newUser={};
+			}
+			this.deleteUser=function(index){
+				UserFactory.deleteUser(index)
+			}
+				
+						
+			
+		});
+
+
+		myApp.controller('UserListsController',function($scope,UserFactory){
+			console.log("inside controller");
+			$scope.users=[];
+			UserFactory.getUser(function(data){
+				$scope.users=data;
+			})
+
+			
+				
+						
+			
+		});
+	</script>
+</head>
+<body>
+	<a href="#/">Customerized User</a> | <a href="#/userList">User List</a>
+
+	<div ng-view=''>
+
+	</div>
+</body>
+</html>
